@@ -15,12 +15,12 @@ spec:
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
-    - jsonPath: .spec.message
-      name: Backup
+    - jsonPath: .status.status
+      name: Status
       type: string
-    - jsonPath: .status.processed
-      name: Processed
-      type: boolean
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
     name: v1alpha1
     schema:
       openAPIV3Schema:
@@ -46,21 +46,61 @@ spec:
           spec:
             description: BackupSpec defines the desired state of Backup
             properties:
-              message:
-                description: Message to be logged by the operator
-                minLength: 1
+              resources:
+                description: Resources is a list of Kubernetes resources to include
+                  in the backup
+                items:
+                  description: Resource defines a Kubernetes resource with its name,
+                    group and version
+                  properties:
+                    group:
+                      description: |-
+                        Group is the API group the resource belongs to.
+                        For resources in the core API group (e.g., "pods", "services"), leave this empty.
+                      type: string
+                    name:
+                      description: Name is the name of the Kubernetes resource
+                      type: string
+                    version:
+                      description: Version is the API version of the resource.
+                      type: string
+                  required:
+                  - name
+                  type: object
+                type: array
+              storageBucket:
+                description: StorageBucket is the name of the MinIO bucket to store
+                  backups.
                 type: string
             required:
-            - message
+            - resources
+            - storageBucket
             type: object
           status:
             description: BackupStatus defines the observed state of Backup
             properties:
-              processed:
-                description: Indicates if the backup was processed
-                type: boolean
-            required:
-            - processed
+              backupFileName:
+                description: BackupFileName is the name of the backup file in MinIO.
+                type: string
+              completionTime:
+                description: CompletionTime is the time at which the backup was completed.
+                format: date-time
+                type: string
+              error:
+                description: Error message if the backup failed.
+                type: string
+              startTime:
+                description: StartTime is the time at which the backup was started.
+                format: date-time
+                type: string
+              status:
+                description: Status of the backup.  Can be "Completed", "Failed",
+                  or "InProgress".
+                enum:
+                - Completed
+                - Failed
+                - InProgress
+                type: string
             type: object
         type: object
     served: true

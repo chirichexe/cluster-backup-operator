@@ -5,6 +5,15 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
+  - ""
+  - apps
+  - batch
+  resources:
+  - '*'
+  verbs:
+  - get
+  - list
+- apiGroups:
   - operators.com
   resources:
   - backups

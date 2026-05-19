@@ -1,0 +1,8 @@
+apiVersion: operators.com/v1alpha1
+kind: Restore
+metadata:
+  name: restore-sample
+  namespace: nginx
+spec:
+  backupName: backup-sample
+  storageBucket: workshop-backups

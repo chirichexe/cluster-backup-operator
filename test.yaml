@@ -1,0 +1,6 @@
+apiVersion: operators.com/v1alpha1
+kind: Backup
+metadata:
+  name: hello-operator
+spec:
+  message: "Hello CloudNativeItaly, this is my first Kubernetes Operator!"

@@ -3,6 +3,7 @@
 # It should be run by config/default
 resources:
 - bases/operators.com_backups.yaml
+- bases/operators.com_restores.yaml
 # +kubebuilder:scaffold:crdkustomizeresource
 
 patches:

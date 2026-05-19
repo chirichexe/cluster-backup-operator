@@ -1,0 +1,14 @@
+[
+  {
+    "apiVersion": "v1",
+    "kind": "ConfigMap",
+    "metadata": {
+      "name": "restore-test-data",
+      "namespace": "nginx"
+    },
+    "data": {
+      "status": "successfully-restored",
+      "cluster": "kind-workshop"
+    }
+  }
+]
